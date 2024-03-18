@@ -2,7 +2,7 @@ import express , { Request , Response } from 'express';
 import { condb, queryAsync } from '../../utils/condb';
 import { MysqlError } from 'mysql';
 import { Movie } from '../../model/movie';
-import { Creator } from '../../model/creator';
+
 
 const  router = express.Router();
 
@@ -38,11 +38,12 @@ router.get('/' ,  async (req:Request , res: Response) => {
             const creators = await queryAsync(creatorsQuery , [movie.m_id]);
 
             const starsQuery = `
-            SELECT hw5_stars.s_id, hw5_persons.*
-            FROM hw5_stars
-            LEFT JOIN hw5_persons ON hw5_stars.p_id = hw5_persons.p_id
-            WHERE hw5_stars.m_id = ?
+                SELECT hw5_stars.s_id, hw5_persons.*
+                FROM hw5_stars
+                LEFT JOIN hw5_persons ON hw5_stars.p_id = hw5_persons.p_id
+                WHERE hw5_stars.m_id = ?
             `;
+            
             const stars = await queryAsync(starsQuery , [movie.m_id]);
     
             datasets.push({
